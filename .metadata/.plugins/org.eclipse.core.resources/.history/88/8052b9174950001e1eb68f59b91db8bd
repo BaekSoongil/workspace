@@ -1,0 +1,24 @@
+package com.book.jpa;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.stereotype.Service;
+
+@Service
+public class BookService {
+
+	private final BookRepository bookRepository;
+	public BookService(BookRepository bookRepository) {
+		this.bookRepository = bookRepository;
+	}
+	
+	public List<Book> getAllBooks(){
+		return bookRepository.findAll();
+	}
+	
+	public Book getBookById(String id) {
+		Optional<Book> book = bookRepository.findById(id);
+		return book.get();
+	}
+}
