@@ -1,5 +1,12 @@
 /**
- * Route 추가
+ * 
  */
-import React from 'react';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import axios from "axios";
+
+export const deleteBook = async (id) =>{
+	try{
+		const response = await axios.delete('/${id}');
+	}catch(error){
+		throw error;
+	}
+}
