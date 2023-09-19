@@ -56,7 +56,7 @@ export default function BookList(){
 							</tr>
 						</thead>
 						<tbody>
-							{booklist.map((book, key)=>{
+							{bookList.map((book, key)=>{
 								return (
 									<tr key={key}>
 										<td>{book.bookId}</td>

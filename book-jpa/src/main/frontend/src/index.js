@@ -7,7 +7,7 @@ import reportWebVitals from './reportWebVitals';
 import axios from 'axios';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-axios.defaults.baseURL = "http://localhost:8081/api/books";
+axios.defaults.baseURL = "api";
 root.render(
   <React.StrictMode>
     <App />

@@ -2,14 +2,20 @@ package com.book.jpa;
 
 import java.util.List;
 
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
+@RestController
+@CrossOrigin
+@RequestMapping("/api/books")
 public class BookController {
 	
 	private BookService bookService;
@@ -18,58 +24,29 @@ public class BookController {
 		this.bookService = bookService;
 	}
 	
-	@GetMapping("/")
-	public String index() {
-		return "index";
+	@GetMapping("")
+	public List<Book> getAllBooks(Model model) {
+		return bookService.getAllBooks();
 	}
 	
-	@GetMapping("/listBook")
-	public String viewBookList(Model model) {
-		List<Book> books = bookService.getAllBooks();
-		model.addAttribute("allBooks", books);
-		
-		return "listBook";
+	@GetMapping("/{id}")
+	public Book viewBook(@PathVariable("id") String id) {
+		return bookService.getBookById(id);
 	}
 	
-	@GetMapping("/viewBook/{id}")
-	public String viewBook(@PathVariable("id") String id, Model model) {
-		Book book = bookService.getBookById(id);
-		model.addAttribute("book", book);
-		
-		return "viewBook";
-	}
-	
-	@GetMapping("/addViewBook")
-	public String addViewBook() {
-		return "addViewBook";
-	}
-	
-	@GetMapping("/addBook")
-	public String addBook(@ModelAttribute Book book) {
+	@PostMapping("")
+	public void saveBook(@RequestBody Book book) {
 		bookService.saveBook(book);
-		
-		return "redirect:/listBook";
 	}
 	
-	@GetMapping("/updateViewBook/{id}")
-	public String updateViewBook(@PathVariable("id") String id, Model model) {
-		Book book = bookService.getBookById(id);
-		model.addAttribute("book", book);
-		
-		return "updateViewBook";
-	}
-	
-	@PostMapping("/updateBook/{id}")
-	public String updateBook(@PathVariable("id") String id, @ModelAttribute Book book) {
+	@PutMapping("/{id}")
+	public void updateBook(@PathVariable("id") String id, @RequestBody Book book) {
+		book.setBookId(id);
 		bookService.updateBook(book);
-		
-		return "redirect:/listBook";
 	}
 	
-	@GetMapping("/deleteBook/{id}")
-	public String deleteBook(@PathVariable("id") String id) {
+	@DeleteMapping("/{id}")
+	public void deleteBook(@PathVariable("id") String id) {
 		bookService.deleteBook(id);
-		
-		return "redirect:/listBook";
 	}
 }
